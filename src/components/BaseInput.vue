@@ -8,7 +8,15 @@
 </template>
 
 <script setup>
-const model = defineModel()
+const [model, modelModifiers] = defineModel({
+  set: value => {
+    if (modelModifiers.trim) {
+      return value.trim()
+    }
+    return value
+  },
+})
+console.log('modelModifiers : ', modelModifiers)
 </script>
 
 <style lang="scss" scoped></style>

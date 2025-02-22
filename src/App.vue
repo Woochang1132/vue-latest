@@ -2,6 +2,7 @@
 import BaseCard from '@/components/BaseCard.vue'
 import BaseInput from './components/BaseInput.vue'
 import { useFetch } from '@/composables/useFetch.js'
+import TodoItem from './components/TodoItem.vue'
 import { ref } from 'vue'
 
 // URL을 ref로 선언하여 유연하게 사용할 수 있음
@@ -24,26 +25,16 @@ const handleAddTodo = () => {
       <h1 class="text-3xl font-bold text-center mb-8">할 일 목록</h1>
       <div class="space-y-4">
         <BaseInput
-          v-model="newTodo"
+          v-model.trim="newTodo"
           @keyup.ctrl.enter="handleAddTodo"
         ></BaseInput>
-
         <div class="space-y-2">
-          <div
+          <TodoItem
             v-for="todo in todos"
             :key="todo.id"
-            class="p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 transition-all"
-            draggable="true"
-          >
-            <span
-              class="text-gray-800"
-              :class="{
-                'line-through text-gray-400': todo.completed,
-              }"
-            >
-              {{ todo.title }}
-            </span>
-          </div>
+            :title="todo.title"
+            v-model:checked="todo.completed"
+          />
         </div>
       </div>
     </BaseCard>
