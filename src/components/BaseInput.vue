@@ -1,5 +1,6 @@
 <template>
   <input
+    ref="base-input"
     v-model="model"
     type="text"
     placeholder="Add a new task..."
@@ -8,6 +9,8 @@
 </template>
 
 <script setup>
+import { onMounted, useTemplateRef } from 'vue'
+
 const [model, modelModifiers] = defineModel({
   set: value => {
     if (modelModifiers.trim) {
@@ -16,7 +19,12 @@ const [model, modelModifiers] = defineModel({
     return value
   },
 })
-console.log('modelModifiers : ', modelModifiers)
+
+const inputRef = useTemplateRef('base-input')
+
+onMounted(() => {
+  inputRef.value.focus()
+})
 </script>
 
 <style lang="scss" scoped></style>
