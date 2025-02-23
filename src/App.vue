@@ -3,7 +3,8 @@ import BaseCard from '@/components/BaseCard.vue'
 import BaseInput from './components/BaseInput.vue'
 import { useFetch } from '@/composables/useFetch.js'
 import TodoItem from './components/TodoItem.vue'
-import { ref } from 'vue'
+import TodoStats from './components/TodoStats.vue'
+import { computed, ref } from 'vue'
 
 // URL을 ref로 선언하여 유연하게 사용할 수 있음
 const todoUrl = ref('/todos.json')
@@ -17,6 +18,14 @@ const handleAddTodo = () => {
     completed: false,
   })
 }
+
+const total = computed(() => todos.value?.length)
+const completed = computed(
+  () => todos.value?.filter(todo => todo.completed).length,
+)
+const pending = computed(
+  () => todos.value?.filter(todo => !todo.completed).length,
+)
 </script>
 
 <template>
@@ -37,6 +46,7 @@ const handleAddTodo = () => {
           />
         </div>
       </div>
+      <TodoStats :total :completed :pending />
     </BaseCard>
   </main>
 </template>
